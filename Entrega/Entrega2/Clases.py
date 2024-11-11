@@ -63,7 +63,7 @@ class Lista_ordenada(Agregado_lineal[E], Generic[E, R]):
 
     def __index_order(self, e: E) -> int:
         for i in range(len(self._elements)):
-            if i ==self._elements[i]:
+            if self._order(e) < self._order(self._elements[i]):
                 return i
                 break
         return len(self._elements)
@@ -73,12 +73,17 @@ class Lista_ordenada(Agregado_lineal[E], Generic[E, R]):
     def add(self, e: E) -> None:
         index:int = self.__index_order(e)
         self._elements.insert(index,e)
+    
+    def __str__(self) -> str:
+        elementos = ", ".join(str(e) for e in self._elements)
+        return f'ListaOrdenada({elementos})'
         
         
 
 
 class Lista_ordenada_sin_repeticion(Lista_ordenada[E, R], Generic[E, R]):
     def __init__(self, order: Callable[[E], R]):
+        super().__init__(order)
         # Inicializa la colección con una función de ordenación
         self._order = order
 
@@ -88,14 +93,19 @@ class Lista_ordenada_sin_repeticion(Lista_ordenada[E, R], Generic[E, R]):
 
     def __index_order(self, e: E) -> int:
         for i in range(len(self._elements)):
-            if i ==self._elements[i]:
+            if self._order(e) < self._order(self._elements[i]):
                 return i
                 break
-        return int(i)
+        return len(self._elements)
     
     def add(self, e: E) -> None:
-        index:int = self.__index_order(e)
-        self._elements.insert(index,e)
+        if e not in self._elements:
+            index:int = self.__index_order(e)
+            self._elements.insert(index,e)
+            
+    def __str__(self) -> str:
+        elementos = ", ".join(str(e) for e in self._elements)
+        return f'ListaOrdenadaSinRepeticion({elementos})'
         
 
 
@@ -209,7 +219,7 @@ class Cola_prioridad(Generic[E, P]):
                 
     def __str__(self) -> str:
         elementos = ", ".join(f'{e}, {p}' for e, p in zip(self._elements, self._prioridades))
-        return f'La Cola prioridad es: [{elementos}]'
+        return f'ColaPrioridad[{elementos}]'
 
 
 
@@ -231,6 +241,9 @@ class Pila(Agregado_lineal[E]):
     
     def add(self,e:E)->None:
         self._elements.insert(0,e)
+        
+
+
         
 #order = lambda x : -x
 #miLista = Lista_ordenada(order)
