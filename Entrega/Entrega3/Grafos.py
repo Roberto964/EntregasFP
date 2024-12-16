@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from typing import TypeVar, Generic, Dict, Set, Optional, Callable
 import matplotlib.pyplot as plt
-import networkx as nx#da error no se por qué, voy a terminar y si me da erro pregunto al profesor
+import networkx as nx# este error es como si no estuviera porque no afecta el codigo funciona perfectamente
 
 # Definición de tipos genéricos
 V = TypeVar('V')  # Tipo para vértices
